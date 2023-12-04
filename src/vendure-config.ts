@@ -3,9 +3,10 @@ import {
     DefaultJobQueuePlugin,
     DefaultSearchPlugin,
     VendureConfig,
+    DefaultAssetNamingStrategy,
 } from '@vendure/core';
 import { defaultEmailHandlers, EmailPlugin } from '@vendure/email-plugin';
-import { AssetServerPlugin } from '@vendure/asset-server-plugin';
+import { AssetServerPlugin, configureS3AssetStorage } from '@vendure/asset-server-plugin';
 import { AdminUiPlugin } from '@vendure/admin-ui-plugin';
 import 'dotenv/config';
 import path from 'path';
@@ -67,9 +68,29 @@ export const config: VendureConfig = {
         }]
     },
     plugins: [
+        // AssetServerPlugin.init({
+        //     route: 'assets',
+        //     assetUploadDir: path.join(__dirname, '../static/assets'),
+        // }),
         AssetServerPlugin.init({
             route: 'assets',
-            assetUploadDir: path.join(__dirname, '../static/assets'),
+            assetUploadDir: path.join(__dirname, 'assets'),
+            namingStrategy: new DefaultAssetNamingStrategy(),
+            storageStrategyFactory: configureS3AssetStorage({
+              bucket: 'my-minio-bucket',
+              credentials: {
+                accessKeyId: process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY,
+                secretAccessKey: process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY,
+              },
+              nativeS3Configuration: {
+                endpoint: process.env.NF_MY_MINIO_BUCKET_MINIO_ENDPOINT ?? 'http://localhost:9000',
+                forcePathStyle: true,
+                signatureVersion: 'v4',
+                // The `region` is required by the AWS SDK even when using MinIO,
+                // so we just use a dummy value here.
+                region: 'us-east-1',
+              },
+            }),
         }),
         DefaultJobQueuePlugin.init({ useDatabaseForBuffer: true }),
         DefaultSearchPlugin.init({ bufferUpdates: false, indexStockStatus: true }),
