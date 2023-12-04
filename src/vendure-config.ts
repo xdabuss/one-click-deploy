@@ -77,7 +77,7 @@ export const config: VendureConfig = {
             assetUploadDir: path.join(__dirname, 'assets'),
             namingStrategy: new DefaultAssetNamingStrategy(),
             storageStrategyFactory: configureS3AssetStorage({
-              bucket: 'my-minio-bucket',
+              bucket: 'bucket1',
               credentials: {
                 accessKeyId: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
                 secretAccessKey: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
