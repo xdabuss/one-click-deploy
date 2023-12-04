@@ -79,8 +79,8 @@ export const config: VendureConfig = {
             storageStrategyFactory: configureS3AssetStorage({
               bucket: 'my-minio-bucket',
               credentials: {
-                accessKeyId: process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY,
-                secretAccessKey: process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY,
+                accessKeyId: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
+                secretAccessKey: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
               },
               nativeS3Configuration: {
                 endpoint: process.env.NF_MY_MINIO_BUCKET_MINIO_ENDPOINT ?? 'http://localhost:9000',
