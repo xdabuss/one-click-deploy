@@ -80,7 +80,7 @@ export const config: VendureConfig = {
               bucket: 'bucket1',
               credentials: {
                 accessKeyId: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
-                secretAccessKey: String(process.env.NF_MY_MINIO_BUCKET_ACCESS_KEY),
+                secretAccessKey: String(process.env.NF_MY_MINIO_BUCKET_SECRET_KEY),
               },
               nativeS3Configuration: {
                 endpoint: process.env.NF_MY_MINIO_BUCKET_MINIO_ENDPOINT ?? 'http://localhost:9000',
